@@ -2,143 +2,80 @@
 @source "../src";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-background: var(--background); --color-foreground: var(--foreground);
+  --color-card: var(--card); --color-card-foreground: var(--foreground);
+  --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary); --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent); --color-accent-foreground: var(--foreground);
+  --color-border: var(--border); --color-input: var(--border); --color-ring: var(--primary);
+  --color-destructive: var(--destructive); --color-destructive-foreground: var(--background);
+  --color-positive: var(--positive); --color-warning: var(--warning);
+  --font-sans: "Arial", "Helvetica Neue", sans-serif;
+  --radius-sm: 2px; --radius-md: 4px; --radius-lg: 6px;
 }
-
-:root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
-
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
-}
-
-@layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-  }
-}
+:root { --background: oklch(1 0 0); --foreground: oklch(.22 .025 253); --card: oklch(1 0 0); --primary: oklch(.29 .066 258); --primary-foreground: oklch(1 0 0); --secondary: oklch(.974 .005 250); --muted: oklch(.965 .006 250); --muted-foreground: oklch(.53 .018 250); --accent: oklch(.94 .014 250); --border: oklch(.9 .009 250); --destructive: oklch(.56 .19 26); --positive: oklch(.48 .13 154); --warning: oklch(.64 .12 75); }
+* { box-sizing: border-box; border-color: var(--border); }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); }
+.trade-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.trade-top { height: 58px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 38px; gap: 24px; }
+.trade-brand { display: flex; align-items: center; gap: 9px; flex-shrink: 0; font-weight: 700; font-size: 17px; letter-spacing: -.3px; }
+.trade-mark { width: 20px; height: 20px; background: var(--destructive); display: inline-block; }
+.trade-mark.small { width: 14px; height: 14px; }
+.trade-identity { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--muted-foreground); }
+.trade-identity strong { color: var(--foreground); font-weight: 600; }
+.trade-nav { height: 49px; display: flex; gap: 32px; align-items: stretch; border-bottom: 1px solid var(--border); padding: 0 38px; overflow-x: auto; }
+.trade-nav button { border: 0; border-bottom: 2px solid transparent; background: transparent; padding: 0 2px; color: var(--muted-foreground); font-size: 13px; white-space: nowrap; cursor: pointer; }
+.trade-nav button.active { border-color: var(--primary); color: var(--primary); font-weight: 700; }
+.trade-main { width: min(1300px, 100%); margin: 0 auto; flex: 1; padding: 36px 40px 80px; }
+.trade-kicker { font-size: 11px; text-transform: uppercase; color: var(--muted-foreground); font-weight: 700; letter-spacing: 1.3px; margin-bottom: 9px; }
+.trade-title { font-size: 29px; line-height: 1.2; font-weight: 700; margin: 0; letter-spacing: -.6px; }
+.trade-subtitle { font-size: 13px; color: var(--muted-foreground); margin: 9px 0 0; }
+.trade-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 27px; }
+.trade-search { width: min(100%, 540px); height: 40px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: 3px; padding: 0 12px; color: var(--muted-foreground); background: var(--background); }
+.trade-search input { border: 0; outline: none; flex: 1; min-width: 0; font-size: 13px; background: transparent; color: var(--foreground); }
+.trade-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin: 25px 0 19px; }
+.trade-filters { display: flex; gap: 9px; flex-wrap: wrap; }
+.trade-filter { background: var(--background); color: var(--foreground); border: 1px solid var(--border); height: 36px; min-width: 128px; border-radius: 3px; padding: 0 12px; font-size: 12px; }
+.trade-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 24px 0 28px; }
+.trade-stat { border: 1px solid var(--border); padding: 21px 22px; min-height: 125px; }
+.trade-stat span { color: var(--muted-foreground); text-transform: uppercase; font-size: 10px; font-weight: 700; letter-spacing: .9px; }
+.trade-stat strong { display: block; color: var(--primary); font-size: 32px; line-height: 1; margin: 20px 0 5px; }
+.trade-stat small { color: var(--muted-foreground); font-size: 11px; }
+.trade-section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 28px 0 15px; }
+.trade-section-head h2 { font-size: 16px; margin: 0; }
+.trade-table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--border); }
+.trade-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
+.trade-table th { background: var(--secondary); color: var(--muted-foreground); font-weight: 700; height: 42px; white-space: nowrap; }
+.trade-table td { border-top: 1px solid var(--border); height: 54px; }
+.trade-table th,.trade-table td { padding: 11px 15px; }
+.trade-table tbody tr:hover { background: var(--secondary); }
+.trade-table .reference { color: var(--primary); font-weight: 700; }
+.trade-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.trade-pill::before { content: ''; height: 6px; width: 6px; border-radius: 50%; background: currentColor; }
+.trade-pill.positive { color: var(--positive); } .trade-pill.warning { color: var(--warning); } .trade-pill.critical { color: var(--destructive); } .trade-pill.neutral { color: var(--primary); }
+.trade-link { color: var(--primary); background: none; border: none; padding: 0; text-decoration: underline; font-size: 12px; font-weight: 600; cursor: pointer; }
+.trade-actions { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
+.trade-detail { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); }
+.trade-detail div { padding: 17px 20px; border-bottom: 1px solid var(--border); min-height: 70px; }
+.trade-detail div:nth-child(odd) { border-right: 1px solid var(--border); }
+.trade-detail span { color: var(--muted-foreground); display: block; font-size: 11px; margin-bottom: 8px; }
+.trade-detail strong { font-size: 13px; font-weight: 600; }
+.trade-steps { border: 1px solid var(--border); }
+.trade-step { display: grid; grid-template-columns: 26px 1fr 150px 130px; align-items: center; gap: 14px; padding: 17px 18px; border-bottom: 1px solid var(--border); font-size: 13px; }
+.trade-step:last-child { border: 0; }
+.trade-step small { display: block; color: var(--muted-foreground); font-size: 11px; margin-top: 5px; }
+.trade-step-index { background: var(--muted); color: var(--primary); border-radius: 50%; display: grid; place-items: center; width: 25px; height: 25px; font-size: 11px; font-weight: 700; }
+.trade-note { border: 1px solid var(--border); background: var(--secondary); padding: 16px 18px; font-size: 12px; line-height: 1.6; }
+.trade-note strong { color: var(--primary); }
+.trade-form { display: grid; gap: 15px; }
+.trade-form label { display: grid; gap: 7px; font-weight: 600; font-size: 12px; }
+.trade-form input, .trade-form textarea, .trade-form select { width: 100%; padding: 10px 11px; border: 1px solid var(--border); border-radius: 3px; outline-color: var(--primary); font-weight: 400; background: var(--background); color: var(--foreground); }
+.trade-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.trade-footer { border-top: 1px solid var(--border); height: 46px; display: flex; justify-content: space-between; align-items: center; padding: 0 38px; color: var(--muted-foreground); font-size: 10px; gap: 12px; }
+.trade-empty { padding: 42px 18px; text-align: center; color: var(--muted-foreground); font-size: 13px; border: 1px solid var(--border); }
+.trade-segment { display: flex; gap: 0; border: 1px solid var(--border); width: fit-content; border-radius: 3px; overflow: hidden; }
+.trade-segment button { border: 0; background: var(--background); color: var(--muted-foreground); padding: 8px 13px; font-size: 12px; cursor: pointer; }
+.trade-segment button.selected { background: var(--primary); color: var(--primary-foreground); }
+@media(max-width:700px) { .trade-top { padding: 0 18px; } .trade-nav { padding: 0 18px; gap: 22px; } .trade-main { padding: 27px 18px 70px; } .trade-stats { grid-template-columns: 1fr; gap: 9px; } .trade-stat { min-height: 95px; } .trade-stat strong { margin-top: 10px; } .trade-heading { align-items: flex-start; flex-direction: column; } .trade-detail { grid-template-columns: 1fr; } .trade-detail div:nth-child(odd) { border-right: 0; } .trade-step { grid-template-columns: 26px 1fr; } .trade-footer { padding: 10px 18px; height: auto; } .trade-identity .identity-name { display: none; } .trade-form-grid { grid-template-columns: 1fr; } }
