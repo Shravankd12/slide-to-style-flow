@@ -421,6 +421,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      decide_approval: {
+        Args: { _decision: string; _id: string; _reason: string }
+        Returns: undefined
+      }
+      decide_discrepancy: {
+        Args: { _id: string; _reason: string }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -429,6 +437,16 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      mark_extraction_reviewed: { Args: { _id: string }; Returns: undefined }
+      register_customer: {
+        Args: { _name: string; _organisation: string }
+        Returns: undefined
+      }
+      request_approval: { Args: { _app: string }; Returns: undefined }
+      respond_clarification: {
+        Args: { _id: string; _response: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "customer" | "officer" | "approver" | "compliance" | "admin"
