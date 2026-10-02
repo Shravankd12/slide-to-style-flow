@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1790940425176,
+      "tag": "0000_tradeflow_foundation",
+      "breakpoints": true
+    }
+  ]
 }

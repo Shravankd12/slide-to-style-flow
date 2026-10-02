@@ -14,16 +14,424 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      approvals: {
+        Row: {
+          application_id: string
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          decision: string
+          id: string
+          reason: string | null
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision?: string
+          id?: string
+          reason?: string | null
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision?: string
+          id?: string
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "approvals_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "lc_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          application_id: string | null
+          created_at: string
+          details: string
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          application_id?: string | null
+          created_at?: string
+          details?: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          application_id?: string | null
+          created_at?: string
+          details?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "lc_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clarifications: {
+        Row: {
+          application_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          question: string
+          responded_by: string | null
+          response: string | null
+          status: string
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          question: string
+          responded_by?: string | null
+          response?: string | null
+          status?: string
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          question?: string
+          responded_by?: string | null
+          response?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clarifications_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "lc_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      demo_cases: {
+        Row: {
+          amount: number
+          applicant: string
+          application_type: string
+          beneficiary: string
+          confidence: number
+          created_at: string
+          currency: string
+          id: string
+          incoterms: string
+          priority: string
+          reference: string
+          special_instructions: string
+          stage: string
+          status: string
+          validity: string
+        }
+        Insert: {
+          amount: number
+          applicant: string
+          application_type: string
+          beneficiary: string
+          confidence: number
+          created_at?: string
+          currency: string
+          id?: string
+          incoterms: string
+          priority: string
+          reference: string
+          special_instructions: string
+          stage: string
+          status: string
+          validity: string
+        }
+        Update: {
+          amount?: number
+          applicant?: string
+          application_type?: string
+          beneficiary?: string
+          confidence?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          incoterms?: string
+          priority?: string
+          reference?: string
+          special_instructions?: string
+          stage?: string
+          status?: string
+          validity?: string
+        }
+        Relationships: []
+      }
+      discrepancies: {
+        Row: {
+          application_id: string
+          application_value: string
+          created_at: string
+          criterion: string
+          document_value: string
+          id: string
+          resolution_reason: string | null
+          resolved_by: string | null
+          rule_reference: string
+          status: string
+        }
+        Insert: {
+          application_id: string
+          application_value?: string
+          created_at?: string
+          criterion: string
+          document_value?: string
+          id?: string
+          resolution_reason?: string | null
+          resolved_by?: string | null
+          rule_reference?: string
+          status?: string
+        }
+        Update: {
+          application_id?: string
+          application_value?: string
+          created_at?: string
+          criterion?: string
+          document_value?: string
+          id?: string
+          resolution_reason?: string | null
+          resolved_by?: string | null
+          rule_reference?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discrepancies_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "lc_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      extracted_fields: {
+        Row: {
+          application_id: string
+          confidence: number
+          created_at: string
+          field_name: string
+          field_value: string
+          id: string
+          reviewed_by: string | null
+          source_document: string
+        }
+        Insert: {
+          application_id: string
+          confidence: number
+          created_at?: string
+          field_name: string
+          field_value: string
+          id?: string
+          reviewed_by?: string | null
+          source_document?: string
+        }
+        Update: {
+          application_id?: string
+          confidence?: number
+          created_at?: string
+          field_name?: string
+          field_value?: string
+          id?: string
+          reviewed_by?: string | null
+          source_document?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "extracted_fields_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "lc_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lc_applications: {
+        Row: {
+          amount: number
+          applicant: string
+          application_type: string
+          assigned_officer: string | null
+          beneficiary: string
+          created_at: string
+          currency: string
+          customer_id: string | null
+          id: string
+          incoterms: string
+          priority: string
+          reference: string
+          special_instructions: string
+          stage: string
+          status: string
+          updated_at: string
+          validity: string
+        }
+        Insert: {
+          amount: number
+          applicant: string
+          application_type?: string
+          assigned_officer?: string | null
+          beneficiary: string
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          id?: string
+          incoterms?: string
+          priority?: string
+          reference?: string
+          special_instructions?: string
+          stage?: string
+          status?: string
+          updated_at?: string
+          validity?: string
+        }
+        Update: {
+          amount?: number
+          applicant?: string
+          application_type?: string
+          assigned_officer?: string | null
+          beneficiary?: string
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          id?: string
+          incoterms?: string
+          priority?: string
+          reference?: string
+          special_instructions?: string
+          stage?: string
+          status?: string
+          updated_at?: string
+          validity?: string
+        }
+        Relationships: []
+      }
+      lc_documents: {
+        Row: {
+          application_id: string
+          created_at: string
+          document_type: string
+          id: string
+          mime_type: string
+          name: string
+          processing_status: string
+          size_bytes: number
+          storage_path: string
+          uploaded_by: string
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          document_type?: string
+          id?: string
+          mime_type: string
+          name: string
+          processing_status?: string
+          size_bytes: number
+          storage_path: string
+          uploaded_by: string
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          document_type?: string
+          id?: string
+          mime_type?: string
+          name?: string
+          processing_status?: string
+          size_bytes?: number
+          storage_path?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lc_documents_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "lc_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          organisation: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string
+          id: string
+          organisation?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          organisation?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "customer" | "officer" | "approver" | "compliance" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +558,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["customer", "officer", "approver", "compliance", "admin"],
+    },
   },
 } as const
