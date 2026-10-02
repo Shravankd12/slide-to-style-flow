@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1790940425176,
+      "tag": "0000_tradeflow_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790940509040,
+      "tag": "0001_tradeflow_guarded_workflow",
+      "breakpoints": true
+    }
+  ]
+}
