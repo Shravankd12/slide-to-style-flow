@@ -69,6 +69,10 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .trade-step-index { background: var(--muted); color: var(--primary); border-radius: 50%; display: grid; place-items: center; width: 25px; height: 25px; font-size: 11px; font-weight: 700; }
 .trade-note { border: 1px solid var(--border); background: var(--secondary); padding: 16px 18px; font-size: 12px; line-height: 1.6; }
 .trade-note strong { color: var(--primary); }
+.trade-note-spaced { margin-bottom: 24px; }
+.trade-note-top { margin-top: 14px; }
+.trade-title-detail { margin-top: 12px; }
+.trade-mode-toolbar { margin-top: 0; margin-bottom: 20px; }
 .trade-form { display: grid; gap: 15px; }
 .trade-form label { display: grid; gap: 7px; font-weight: 600; font-size: 12px; }
 .trade-form input, .trade-form textarea, .trade-form select { width: 100%; padding: 10px 11px; border: 1px solid var(--border); border-radius: 3px; outline-color: var(--primary); font-weight: 400; background: var(--background); color: var(--foreground); }
