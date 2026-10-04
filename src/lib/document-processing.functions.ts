@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { demoDocumentProcessingService } from "./document-processing.server";
 
 export const processDocumentDemo = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -27,6 +26,7 @@ export const processDocumentDemo = createServerFn({ method: "POST" })
     if (application.status === "Issued" || application.status === "Rejected") throw new Error("This application is closed.");
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { demoDocumentProcessingService } = await import("./document-processing.server");
     const classification = demoDocumentProcessingService.classifyDocument(document.name);
     const fields = demoDocumentProcessingService.extractFields({
       applicant: application.applicant,
