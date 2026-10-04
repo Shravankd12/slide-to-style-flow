@@ -12,3 +12,4 @@
 - Keep customer and operations screens in a shared route experience with role-filtered data; this follows the connected-workspace presentation while keeping signed-out demonstration records separate from private cases.
 - Keep all LC documents in a private bucket scoped to application IDs; trade documents must never be publicly addressable.
 - Use separate user_roles and database-enforced decision functions for staff privileges; UI labels alone must not authorize trade decisions.
+- Keep uploaded-document processing behind a server-side adapter; demo processing labels form-derived fields explicitly and never claims OCR inference.
