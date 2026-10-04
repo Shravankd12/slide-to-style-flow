@@ -377,6 +377,47 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          application_id: string | null
+          body: string
+          channel: string
+          created_at: string
+          id: string
+          read_at: string | null
+          recipient_id: string
+          title: string
+        }
+        Insert: {
+          application_id?: string | null
+          body?: string
+          channel?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          recipient_id: string
+          title: string
+        }
+        Update: {
+          application_id?: string | null
+          body?: string
+          channel?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          recipient_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "lc_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string

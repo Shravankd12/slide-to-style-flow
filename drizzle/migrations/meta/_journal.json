@@ -15,6 +15,13 @@
       "when": 1790940509040,
       "tag": "0001_tradeflow_guarded_workflow",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791090026333,
+      "tag": "0002_tradeflow_notifications",
+      "breakpoints": true
     }
   ]
 }
