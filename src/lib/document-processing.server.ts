@@ -36,13 +36,14 @@ export const demoDocumentProcessingService: DocumentProcessingService = {
     // These are form values, not OCR output. Keep confidence low so a human
     // must review each value before requesting approval.
     const source_document = "Submitted application form · DEMO AI MODE";
-    return [
+    const values: Array<[string, string]> = [
       ["Applicant", input.applicant],
       ["Beneficiary", input.beneficiary],
       ["Amount", `${input.currency} ${input.amount}`],
       ["Validity", input.validity],
       ["Incoterms", input.incoterms],
-    ].filter(([, value]) => Boolean(value)).map(([field_name, field_value]) => ({
+    ];
+    return values.filter(([, value]) => Boolean(value)).map(([field_name, field_value]) => ({
       field_name,
       field_value,
       confidence: 65,
