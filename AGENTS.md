@@ -13,3 +13,4 @@
 - Keep all LC documents in a private bucket scoped to application IDs; trade documents must never be publicly addressable.
 - Use separate user_roles and database-enforced decision functions for staff privileges; UI labels alone must not authorize trade decisions.
 - Keep uploaded-document processing behind a server-side adapter; demo processing labels form-derived fields explicitly and never claims OCR inference.
+- Keep administration configuration and compliance decisions on role-checked database paths; stored configuration is not live validation or a bypass for human approval.

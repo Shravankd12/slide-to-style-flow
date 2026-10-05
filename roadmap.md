@@ -5,5 +5,6 @@
 - [x] Guarded human-decision workflow and audit history
 - [x] Verify signed-out presentation flows and mobile/desktop screens
 - [x] Demo document-processing adapter with mandatory human review
-- [ ] In-app and email notifications; compliance review and administration
-- [ ] Signed-in customer and staff role workflow verification (requires test accounts)
+- [x] In-app notifications, mock email outbox, compliance review and administration configuration
+- [ ] Production email delivery requires an external email provider
+- [ ] Signed-in customer and staff role workflow verification (requires staff-role test accounts)
