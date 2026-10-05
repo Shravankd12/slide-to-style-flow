@@ -29,6 +29,13 @@
       "when": 1791090128234,
       "tag": "0003_tradeflow_notification_events",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791168568109,
+      "tag": "0004_tradeflow_compliance_admin_settings",
+      "breakpoints": true
     }
   ]
 }
