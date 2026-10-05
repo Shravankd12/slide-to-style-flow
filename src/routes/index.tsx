@@ -21,6 +21,9 @@ type Clarification = Database["public"]["Tables"]["clarifications"]["Row"];
 type Approval = Database["public"]["Tables"]["approvals"]["Row"];
 type Audit = Database["public"]["Tables"]["audit_logs"]["Row"];
 type Notification = Database["public"]["Tables"]["notifications"]["Row"];
+type ComplianceFlag = Database["public"]["Tables"]["compliance_flags"]["Row"];
+type TradeSetting = Database["public"]["Tables"]["tradeflow_settings"]["Row"];
+type AdminUser = Database["public"]["Functions"]["list_tradeflow_users"]["Returns"][number];
 type Role = Database["public"]["Enums"]["app_role"];
 type DisplayCase = Pick<Case,"id"|"reference"|"applicant"|"beneficiary"|"amount"|"currency"|"application_type"|"validity"|"incoterms"|"special_instructions"|"stage"|"status"|"priority"|"created_at"> & {confidence?: number};
 type DisplayField = { id?: string; field_name: string; field_value: string; confidence: number; source_document: string; reviewed_by?: string | null };
@@ -38,6 +41,13 @@ export const Route = createFileRoute("/")({
 
 const customerNav = ["Home","Applications","Documents","LC Status"];
 const opsNav = ["Home","LC Requests","Extraction","Discrepancies","Approvals","Audit"];
+const settingSections = [
+  {key:"confidence_thresholds",label:"Confidence Thresholds",hint:"High and medium confidence boundaries",defaultValue:{high:90,medium:75}},
+  {key:"validation_rules",label:"Validation Rules",hint:"Demo validation rules (disabled until real document analysis is connected)",defaultValue:{enabled:false}},
+  {key:"document_types",label:"Document Types",hint:"Recognised trade document types",defaultValue:{types:["LC Application Form","Commercial Invoice","Bill of Lading","Beneficiary Certificate","Signed Undertaking"]}},
+  {key:"workflow_configuration",label:"Workflow Configuration",hint:"Human approvals and compliance reviews remain mandatory",defaultValue:{manual_approval_required:true}},
+  {key:"notification_templates",label:"Notification Templates",hint:"In-app updates and mock email subjects",defaultValue:{clarification:"Clarification requested",approval:"LC decision recorded"}},
+] as const;
 const stages = ["Application submitted","Document upload","AI extraction & validation","Discrepancy review","LC issuance"];
 const formatMoney = (amount: number, currency: string) => `${currency} ${Number(amount).toLocaleString("en-US",{maximumFractionDigits:2})}`;
 const date = (value: string) => new Date(value).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
@@ -66,11 +76,16 @@ function TradeFlow(){
   const [approvals,setApprovals]=useState<Approval[]>([]);
   const [audit,setAudit]=useState<Audit[]>([]);
   const [notifications,setNotifications]=useState<Notification[]>([]);
-  const [dialog,setDialog]=useState<"auth"|"new"|"clarify"|"respond"|"resolve"|"decision"|null>(null);
+  const [flags,setFlags]=useState<ComplianceFlag[]>([]);
+  const [settings,setSettings]=useState<TradeSetting[]>([]);
+  const [adminUsers,setAdminUsers]=useState<AdminUser[]>([]);
+  const [adminSection,setAdminSection]=useState("Users");
+  const [dialog,setDialog]=useState<"auth"|"new"|"clarify"|"respond"|"resolve"|"decision"|"compliance"|"flag"|null>(null);
   const [authMode,setAuthMode]=useState<"signin"|"signup">("signin");
   const [busy,setBusy]=useState(false);
   const [target,setTarget]=useState<string|null>(null);
   const [decision,setDecision]=useState<"Approved"|"Rejected">("Approved");
+  const [complianceDecision,setComplianceDecision]=useState("Under Review");
   const [reason,setReason]=useState("");
   const [page,setPage]=useState(0);
   const fileRef=useRef<HTMLInputElement>(null);
@@ -78,6 +93,7 @@ function TradeFlow(){
   const isStaff=role!==null&&role!=="customer";
   const canOfficer=role==="officer"||role==="admin";
   const canApprove=role==="approver"||role==="admin";
+  const canCompliance=role==="compliance"||role==="admin";
   const selectedCase=cases.find(c=>c.id===selected)??null;
 
   const loadCases=useCallback(async(currentUser:{id:string}|null, currentRole:Role|null)=>{
@@ -99,15 +115,17 @@ function TradeFlow(){
     results.forEach(r=>{if(r.error) toast.error(r.error.message)});
   },[]);
   const loadNotifications=useCallback(async()=>{const {data,error}=await supabase.from("notifications").select("*").order("created_at",{ascending:false}).limit(50);if(error)toast.error(error.message);else setNotifications(data??[])},[]);
+  const loadFlags=useCallback(async()=>{const {data,error}=await supabase.from("compliance_flags").select("*").order("created_at",{ascending:false});if(error)toast.error(error.message);else setFlags(data??[])},[]);
+  const loadAdmin=useCallback(async()=>{const [users,configuration]=await Promise.all([supabase.rpc("list_tradeflow_users"),supabase.from("tradeflow_settings").select("*")]);if(users.error)toast.error(users.error.message);else setAdminUsers(users.data??[]);if(configuration.error)toast.error(configuration.error.message);else setSettings(configuration.data??[])},[]);
   useEffect(()=>{let active=true;async function init(){const {data}=await supabase.auth.getUser();if(!active)return;const current=data.user;if(current){let {data:roles}=await supabase.from("user_roles").select("role").eq("user_id",current.id);if(!roles?.length){const metadata=current.user_metadata as {full_name?:string;organisation?:string};await supabase.rpc("register_customer",{_name:metadata.full_name||current.email?.split("@")[0]||"Customer",_organisation:metadata.organisation||""});({data:roles}=await supabase.from("user_roles").select("role").eq("user_id",current.id));}const r=roles?.[0]?.role??null;const {data:profile}=await supabase.from("profiles").select("full_name").eq("id",current.id).maybeSingle();if(!active)return;setUser({id:current.id,email:current.email});setRole(r);setName(profile?.full_name||current.email?.split("@")[0]||"Account");setMode(r==="customer"||!r?"customer":"ops");await loadCases(current,r);await loadNotifications();}else{await loadCases(null,null);}if(active)setReady(true)}init();return()=>{active=false};},[loadCases,loadNotifications]);
   useEffect(()=>{if(selected&&!isDemo)loadDetails(selected);else{setDocs([]);setFields([]);setDiscrepancies([]);setClarifications([]);setApprovals([]);setAudit([])}},[selected,isDemo,loadDetails]);
-   const refresh=async()=>{await loadCases(user,role);if(selected&&!isDemo)await loadDetails(selected);if(user)await loadNotifications()};
+   const refresh=async()=>{await loadCases(user,role);if(selected&&!isDemo)await loadDetails(selected);if(user)await loadNotifications();if(canCompliance)await loadFlags()};
   const visible=useMemo(()=>cases.filter(c=>{
     const match=`${c.reference} ${c.applicant} ${c.beneficiary}`.toLowerCase().includes(search.toLowerCase());
     return match&&(filter==="All stages"||c.stage===filter);
   }),[cases,search,filter]);
   const list=visible.slice(page*8,page*8+8);
-  const switchTab=(value:string)=>{setTab(value);setSelected(null);setPage(0)};
+   const switchTab=(value:string)=>{setTab(value);setSelected(null);setPage(0);if(value==="Compliance Review")loadFlags();if(value==="Administration")loadAdmin()};
   async function handleAuth(e:FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);const form=new FormData(e.currentTarget);const email=String(form.get("email")||"").trim();const password=String(form.get("password")||"");try{
     if(authMode==="signup"){
       const fullName=String(form.get("fullName")||"").trim();const organisation=String(form.get("organisation")||"").trim();if(!fullName||!organisation)throw new Error("Please enter your name and organisation.");
