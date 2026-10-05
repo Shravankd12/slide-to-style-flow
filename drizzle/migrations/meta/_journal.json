@@ -29,6 +29,27 @@
       "when": 1791090128234,
       "tag": "0003_tradeflow_notification_events",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791168568109,
+      "tag": "0004_tradeflow_compliance_admin_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791168587571,
+      "tag": "0005_block_unreviewed_compliance_issuance",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791168703340,
+      "tag": "0006_compliance_manual_flag",
+      "breakpoints": true
     }
   ]
 }

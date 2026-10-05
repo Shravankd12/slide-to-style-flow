@@ -27,7 +27,7 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .trade-identity strong { color: var(--foreground); font-weight: 600; }
 .trade-nav { height: 49px; display: flex; gap: 32px; align-items: stretch; border-bottom: 1px solid var(--border); padding: 0 38px; overflow-x: auto; }
 .trade-nav button { border: 0; border-bottom: 2px solid transparent; background: transparent; padding: 0 2px; color: var(--muted-foreground); font-size: 13px; white-space: nowrap; cursor: pointer; }
-.trade-nav button.active { border-color: var(--primary); color: var(--primary); font-weight: 700; }
+.trade-nav button.trade-nav-active { border-color: var(--primary); color: var(--primary); font-weight: 700; }
 .trade-main { width: min(1300px, 100%); margin: 0 auto; flex: 1; padding: 36px 40px 80px; }
 .trade-kicker { font-size: 11px; text-transform: uppercase; color: var(--muted-foreground); font-weight: 700; letter-spacing: 1.3px; margin-bottom: 9px; }
 .trade-title { font-size: 29px; line-height: 1.2; font-weight: 700; margin: 0; letter-spacing: -.6px; }

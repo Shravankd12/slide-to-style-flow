@@ -128,6 +128,53 @@ export type Database = {
           },
         ]
       }
+      compliance_flags: {
+        Row: {
+          application_id: string
+          created_at: string
+          decision_reason: string | null
+          flag_reason: string
+          id: string
+          review_status: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          risk_priority: string
+          screening_status: string
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          decision_reason?: string | null
+          flag_reason?: string
+          id?: string
+          review_status?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_priority?: string
+          screening_status?: string
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          decision_reason?: string | null
+          flag_reason?: string
+          id?: string
+          review_status?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_priority?: string
+          screening_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_flags_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "lc_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       demo_cases: {
         Row: {
           amount: number
@@ -228,6 +275,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      email_outbox: {
+        Row: {
+          application_id: string | null
+          body: string
+          created_at: string
+          id: string
+          mode: string
+          recipient_id: string
+          subject: string
+        }
+        Insert: {
+          application_id?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          mode?: string
+          recipient_id: string
+          subject: string
+        }
+        Update: {
+          application_id?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          mode?: string
+          recipient_id?: string
+          subject?: string
+        }
+        Relationships: []
       }
       extracted_fields: {
         Row: {
@@ -439,6 +516,27 @@ export type Database = {
         }
         Relationships: []
       }
+      tradeflow_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -462,6 +560,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      assign_tradeflow_role: {
+        Args: { _role: Database["public"]["Enums"]["app_role"]; _user: string }
+        Returns: undefined
+      }
       decide_approval: {
         Args: { _decision: string; _id: string; _reason: string }
         Returns: undefined
@@ -478,6 +580,15 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      list_tradeflow_users: {
+        Args: never
+        Returns: {
+          full_name: string
+          id: string
+          organisation: string
+          role: Database["public"]["Enums"]["app_role"]
+        }[]
+      }
       mark_extraction_reviewed: { Args: { _id: string }; Returns: undefined }
       register_customer: {
         Args: { _name: string; _organisation: string }
@@ -486,6 +597,14 @@ export type Database = {
       request_approval: { Args: { _app: string }; Returns: undefined }
       respond_clarification: {
         Args: { _id: string; _response: string }
+        Returns: undefined
+      }
+      review_compliance_flag: {
+        Args: { _decision: string; _id: string; _reason: string }
+        Returns: undefined
+      }
+      set_tradeflow_setting: {
+        Args: { _key: string; _value: Json }
         Returns: undefined
       }
     }
