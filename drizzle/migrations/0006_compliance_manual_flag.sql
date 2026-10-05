@@ -1,0 +1,2 @@
+GRANT INSERT ON public.compliance_flags TO authenticated;
+CREATE POLICY "compliance staff record manual flags" ON public.compliance_flags FOR INSERT TO authenticated WITH CHECK ((public.has_role(auth.uid(), 'compliance') OR public.has_role(auth.uid(), 'admin')) AND screening_status = 'Flagged' AND review_status = 'Open' AND length(trim(flag_reason)) >= 3 AND EXISTS (SELECT 1 FROM public.lc_applications a WHERE a.id = application_id));
