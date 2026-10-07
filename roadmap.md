@@ -7,4 +7,5 @@
 - [x] Demo document-processing adapter with mandatory human review
 - [x] In-app notifications, mock email outbox, compliance review and administration configuration
 - [ ] Production email delivery requires an external email provider
+- [ ] Google Apps Script mail delivery scaffold, copy-ready script and secret setup guide; activation requires owner deployment/configuration
 - [ ] Signed-in customer and staff role workflow verification (requires staff-role test accounts)
