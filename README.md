@@ -2,6 +2,8 @@
 
 use UI design which i have shared in PPt form and all points are also given to you
 
+Explore the [interactive workflow and architecture map](./public/flow.html) for the customer, operations, document, and approval flows.
+
 This project was built with [Lovable](https://lovable.dev).
 
 **Live app**: https://slide-to-style-flow.lovable.app

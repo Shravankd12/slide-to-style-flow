@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="An interactive architecture and workflow map for SG TradeFlow."
+    />
+    <title>SG TradeFlow — Workflow map</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #17243a;
+        --muted: #67758a;
+        --paper: #f5f7fa;
+        --card: #fff;
+        --line: #dce3ec;
+        --navy: #1b3152;
+        --red: #bd3540;
+        --blue: #426c9d;
+        --green: #39765b;
+        --amber: #a66d1d;
+        --shadow: 0 18px 48px rgb(25 44 72 / 8%);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse at 10% 0%, rgb(66 108 157 / 8%), transparent 34rem),
+          var(--paper);
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .page {
+        width: min(1460px, 100%);
+        margin: 0 auto;
+        padding: 32px clamp(18px, 4vw, 58px) 64px;
+      }
+
+      .masthead,
+      .brand,
+      .masthead-note,
+      .section-heading,
+      .section-heading-copy,
+      .legend,
+      .filter-bar,
+      .filter-group,
+      .node-top,
+      .node-title,
+      .detail-heading,
+      .detail-meta,
+      .footer {
+        display: flex;
+        align-items: center;
+      }
+
+      .masthead {
+        justify-content: space-between;
+        gap: 20px;
+        padding-bottom: 23px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        gap: 11px;
+        color: var(--navy);
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 10px;
+        color: #fff;
+        background: var(--red);
+        font-size: 14px;
+        letter-spacing: 0;
+      }
+
+      .masthead-note {
+        gap: 9px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 0 4px rgb(57 118 91 / 11%);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(230px, 320px);
+        gap: 36px;
+        align-items: end;
+        padding: 48px 0 31px;
+      }
+
+      .eyebrow,
+      .section-kicker {
+        margin: 0 0 11px;
+        color: var(--red);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 800px;
+        margin-bottom: 15px;
+        color: var(--navy);
+        font-size: clamp(34px, 5.3vw, 61px);
+        font-weight: 740;
+        letter-spacing: -0.065em;
+        line-height: 1.02;
+      }
+
+      .hero-copy {
+        max-width: 770px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      .hero-stamp {
+        padding: 17px 18px;
+        border: 1px solid #e8d6d7;
+        border-radius: 14px;
+        background: rgb(255 255 255 / 75%);
+      }
+
+      .hero-stamp strong {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--red);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero-stamp p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .section {
+        margin-top: 27px;
+      }
+
+      .section-heading {
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 14px;
+      }
+
+      .section-heading-copy {
+        gap: 12px;
+      }
+
+      .section-number {
+        display: grid;
+        width: 31px;
+        height: 31px;
+        flex: 0 0 auto;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        color: var(--blue);
+        background: #fff;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        color: var(--navy);
+        font-size: 16px;
+        letter-spacing: -0.025em;
+      }
+
+      .section-heading p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .access-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .access-card,
+      .panel,
+      .guard-card,
+      .role-card,
+      .layer-card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--card);
+        box-shadow: 0 3px 12px rgb(25 44 72 / 3%);
+      }
+
+      .access-card {
+        min-height: 124px;
+        padding: 17px;
+      }
+
+      .access-icon {
+        display: grid;
+        width: 29px;
+        height: 29px;
+        margin-bottom: 13px;
+        place-items: center;
+        border-radius: 9px;
+        color: var(--blue);
+        background: #edf3f9;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .access-card h3 {
+        margin-bottom: 6px;
+        color: var(--navy);
+        font-size: 13px;
+      }
+
+      .access-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.55;
+      }
+
+      .access-card.demo {
+        border-color: #ead9bb;
+        background: #fffcf6;
+      }
+
+      .access-card.demo .access-icon {
+        color: var(--amber);
+        background: #f8eedc;
+      }
+
+      .flow-panel {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 17px;
+        background: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .filter-bar {
+        justify-content: space-between;
+        gap: 16px;
+        padding: 15px 19px;
+        border-bottom: 1px solid var(--line);
+        background: #fbfcfe;
+      }
+
+      .filter-label {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .filter-group {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .filter-button {
+        padding: 7px 11px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        color: var(--muted);
+        background: transparent;
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 700;
+        transition:
+          color 150ms ease,
+          background 150ms ease,
+          border-color 150ms ease;
+      }
+
+      .filter-button:hover,
+      .filter-button[aria-pressed="true"] {
+        border-color: #dce4ed;
+        color: var(--navy);
+        background: #fff;
+      }
+
+      .legend {
+        flex-wrap: wrap;
+        gap: 14px;
+        padding: 12px 20px 0;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .legend-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+      }
+
+      .legend-dot.customer {
+        background: var(--blue);
+      }
+
+      .legend-dot.ops {
+        background: var(--red);
+      }
+
+      .legend-dot.platform {
+        background: var(--green);
+      }
+
+      .flow-grid {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(142px, 1fr));
+        align-items: stretch;
+        gap: 0;
+        min-width: 1120px;
+        padding: 18px 16px 20px;
+      }
+
+      .flow-scroll {
+        overflow-x: auto;
+        scrollbar-color: #bbc8d7 transparent;
+        scrollbar-width: thin;
+      }
+
+      .flow-node-wrap {
+        position: relative;
+        display: flex;
+        align-items: stretch;
+        padding: 0 11px 0 0;
+      }
+
+      .flow-node-wrap:not(:last-child)::after {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        right: 1px;
+        width: 18px;
+        height: 18px;
+        color: #91a2b7;
+        content: "›";
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 15px;
+        text-align: center;
+        transform: translateY(-50%);
+      }
+
+      .flow-node {
+        display: block;
+        width: 100%;
+        min-height: 179px;
+        padding: 13px 12px 12px;
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--blue);
+        border-radius: 12px;
+        color: var(--ink);
+        background: #fff;
+        cursor: pointer;
+        text-align: left;
+        transition:
+          opacity 160ms ease,
+          transform 160ms ease,
+          box-shadow 160ms ease,
+          border-color 160ms ease;
+      }
+
+      .flow-node:hover,
+      .flow-node:focus-visible {
+        z-index: 1;
+        border-color: #aabbd0;
+        box-shadow: 0 8px 20px rgb(25 44 72 / 9%);
+        transform: translateY(-2px);
+      }
+
+      .flow-node:focus-visible,
+      .filter-button:focus-visible {
+        outline: 3px solid rgb(66 108 157 / 32%);
+        outline-offset: 2px;
+      }
+
+      .flow-node[data-audience="ops"] {
+        border-top-color: var(--red);
+      }
+
+      .flow-node[data-audience="platform"] {
+        border-top-color: var(--green);
+      }
+
+      .flow-node.is-muted {
+        opacity: 0.3;
+      }
+
+      .flow-node.is-selected {
+        border-color: #829ab7;
+        box-shadow: 0 0 0 3px rgb(66 108 157 / 12%);
+      }
+
+      .node-top {
+        justify-content: space-between;
+        gap: 7px;
+        margin-bottom: 13px;
+      }
+
+      .node-step {
+        color: #8a97a9;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+      }
+
+      .node-tag,
+      .mini-tag {
+        padding: 4px 6px;
+        border-radius: 5px;
+        color: var(--blue);
+        background: #edf3f9;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      [data-audience="ops"] .node-tag {
+        color: var(--red);
+        background: #fbefef;
+      }
+
+      [data-audience="platform"] .node-tag {
+        color: var(--green);
+        background: #edf6f0;
+      }
+
+      .node-title {
+        align-items: flex-start;
+        gap: 7px;
+        margin-bottom: 8px;
+        color: var(--navy);
+        font-size: 12px;
+        font-weight: 780;
+        line-height: 1.35;
+      }
+
+      .node-title .node-icon {
+        flex: 0 0 auto;
+        color: var(--blue);
+        font-size: 13px;
+      }
+
+      [data-audience="ops"] .node-title .node-icon {
+        color: var(--red);
+      }
+
+      [data-audience="platform"] .node-title .node-icon {
+        color: var(--green);
+      }
+
+      .node-copy {
+        margin: 0;
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.55;
+      }
+
+      .node-foot {
+        display: block;
+        margin-top: 11px;
+        padding-top: 9px;
+        border-top: 1px solid #edf0f4;
+        color: #8491a3;
+        font-size: 9px;
+        font-weight: 650;
+        line-height: 1.45;
+      }
+
+      .loop-strip {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 13px;
+        align-items: start;
+        margin: 0 18px 18px;
+        padding: 13px 15px;
+        border: 1px dashed #d8bd93;
+        border-radius: 11px;
+        background: #fffcf6;
+      }
+
+      .loop-arrow {
+        display: grid;
+        width: 25px;
+        height: 25px;
+        place-items: center;
+        border-radius: 8px;
+        color: var(--amber);
+        background: #f8eedc;
+        font-size: 15px;
+        font-weight: 800;
+      }
+
+      .loop-strip strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #805719;
+        font-size: 11px;
+      }
+
+      .loop-strip p {
+        margin: 0;
+        color: #786c5a;
+        font-size: 10px;
+        line-height: 1.55;
+      }
+
+      .detail-panel {
+        display: grid;
+        grid-template-columns: minmax(190px, 0.75fr) minmax(0, 2fr);
+        gap: 20px;
+        align-items: start;
+        margin-top: 14px;
+        padding: 19px 20px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+      }
+
+      .detail-heading {
+        gap: 10px;
+      }
+
+      .detail-number {
+        display: grid;
+        width: 29px;
+        height: 29px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 9px;
+        color: var(--blue);
+        background: #edf3f9;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .detail-heading h3 {
+        margin: 0;
+        color: var(--navy);
+        font-size: 13px;
+      }
+
+      .detail-body {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.65;
+      }
+
+      .detail-meta {
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 11px;
+      }
+
+      .mini-tag {
+        color: #596a7e;
+        background: #f0f3f7;
+      }
+
+      .guard-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .guard-card {
+        min-height: 136px;
+        padding: 15px;
+      }
+
+      .guard-card h3 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        color: var(--navy);
+        font-size: 11px;
+      }
+
+      .guard-mark {
+        display: grid;
+        width: 22px;
+        height: 22px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 7px;
+        color: var(--green);
+        background: #edf6f0;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .guard-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.6;
+      }
+
+      .architecture-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 13px;
+      }
+
+      .layer-card,
+      .role-card {
+        padding: 18px;
+      }
+
+      .layer-card h3,
+      .role-card h3 {
+        margin-bottom: 14px;
+        color: var(--navy);
+        font-size: 13px;
+      }
+
+      .layer-list,
+      .role-list {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .layer-row,
+      .role-row {
+        display: grid;
+        grid-template-columns: 105px 1fr;
+        gap: 12px;
+        align-items: baseline;
+        padding-top: 10px;
+        border-top: 1px solid #edf0f4;
+        font-size: 10px;
+        line-height: 1.5;
+      }
+
+      .layer-row strong,
+      .role-row strong {
+        color: var(--blue);
+        font-size: 10px;
+      }
+
+      .layer-row span,
+      .role-row span {
+        color: var(--muted);
+      }
+
+      .role-row strong {
+        color: var(--red);
+      }
+
+      .notes-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .note-card {
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgb(255 255 255 / 72%);
+      }
+
+      .note-card strong {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--navy);
+        font-size: 11px;
+      }
+
+      .note-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.6;
+      }
+
+      .note-card.warning {
+        border-color: #ead9bb;
+        background: #fffcf6;
+      }
+
+      .note-card.warning strong {
+        color: #805719;
+      }
+
+      .footer {
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 31px;
+        padding-top: 17px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .footer strong {
+        color: var(--navy);
+      }
+
+      @media (max-width: 860px) {
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 21px;
+        }
+
+        .hero-stamp {
+          max-width: 480px;
+        }
+
+        .guard-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .access-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .access-card {
+          min-height: auto;
+        }
+
+        .access-icon {
+          float: left;
+          margin: 0 11px 20px 0;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .page {
+          padding-top: 19px;
+        }
+
+        .masthead {
+          align-items: flex-start;
+        }
+
+        .masthead-note {
+          max-width: 145px;
+          align-items: flex-start;
+          font-size: 10px;
+          line-height: 1.4;
+        }
+
+        .hero {
+          padding-top: 37px;
+        }
+
+        .hero-copy {
+          font-size: 13px;
+        }
+
+        .section-heading {
+          align-items: flex-start;
+        }
+
+        .section-heading p {
+          max-width: 210px;
+          line-height: 1.45;
+        }
+
+        .filter-bar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .flow-grid {
+          grid-template-columns: 1fr;
+          min-width: 0;
+          gap: 0;
+          padding: 15px;
+        }
+
+        .flow-node-wrap {
+          padding: 0 0 16px;
+        }
+
+        .flow-node-wrap:not(:last-child)::after {
+          top: auto;
+          right: 50%;
+          bottom: 0;
+          content: "↓";
+          transform: translate(50%, 0);
+        }
+
+        .flow-node {
+          min-height: 0;
+          padding: 14px;
+        }
+
+        .node-top {
+          margin-bottom: 9px;
+        }
+
+        .node-foot {
+          margin-top: 9px;
+        }
+
+        .detail-panel,
+        .architecture-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .guard-grid,
+        .notes-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .guard-card {
+          min-height: auto;
+        }
+
+        .layer-row,
+        .role-row {
+          grid-template-columns: 92px 1fr;
+        }
+
+        .footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="masthead">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">SG</span>
+          <span>SG TradeFlow</span>
+        </div>
+        <div class="masthead-note">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>Repository workflow &amp; architecture</span>
+        </div>
+      </header>
+
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Letters of credit · product flow</p>
+          <h1 id="page-title">A clear path from request to human decision.</h1>
+          <p class="hero-copy">
+            SG TradeFlow brings customers and trade operations into one
+            application workspace. Documents stay private to their LC case;
+            automated assistance prepares review data, while people and
+            database-enforced controls own every trade decision.
+          </p>
+        </div>
+        <aside class="hero-stamp">
+          <strong>Design principle</strong>
+          <p>
+            Automation can organize the work. Only authorized people can review,
+            clear compliance, and approve or reject an LC.
+          </p>
+        </aside>
+      </section>
+
+      <section class="section" aria-labelledby="entry-title">
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-number">00</span>
+            <div>
+              <h2 id="entry-title">Entry &amp; identity</h2>
+              <p>One shared experience; demonstration records stay separate from private customer cases.</p>
+            </div>
+          </div>
+        </div>
+        <div class="access-grid">
+          <article class="access-card demo">
+            <span class="access-icon" aria-hidden="true">◇</span>
+            <h3>Signed out · presentation mode</h3>
+            <p>
+              Read-only example cases come from <code>demo_cases</code>. No
+              private documents or decisions are available; actions prompt sign-in.
+            </p>
+          </article>
+          <article class="access-card">
+            <span class="access-icon" aria-hidden="true">↗</span>
+            <h3>Sign in or create an account</h3>
+            <p>
+              Supabase authentication supports email/password and Google OAuth.
+              New customers receive a profile and customer role.
+            </p>
+          </article>
+          <article class="access-card">
+            <span class="access-icon" aria-hidden="true">⌘</span>
+            <h3>Role-filtered workspace</h3>
+            <p>
+              Customers see their own LCs; staff use the same route with
+              role-appropriate operations, compliance, and administration views.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="workflow-title">
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-number">01</span>
+            <div>
+              <h2 id="workflow-title">Application lifecycle</h2>
+              <p>Select a step for implementation notes. Use the filters to emphasize a role or system layer.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-panel">
+          <div class="filter-bar">
+            <span class="filter-label">Highlight a perspective</span>
+            <div class="filter-group" role="group" aria-label="Filter workflow perspective">
+              <button class="filter-button" type="button" data-filter="all" aria-pressed="true">Full flow</button>
+              <button class="filter-button" type="button" data-filter="customer" aria-pressed="false">Customer</button>
+              <button class="filter-button" type="button" data-filter="ops" aria-pressed="false">Operations</button>
+              <button class="filter-button" type="button" data-filter="platform" aria-pressed="false">Platform &amp; controls</button>
+            </div>
+          </div>
+          <div class="legend" aria-label="Workflow color legend">
+            <span class="legend-item"><span class="legend-dot customer"></span>Customer action</span>
+            <span class="legend-item"><span class="legend-dot ops"></span>Staff decision</span>
+            <span class="legend-item"><span class="legend-dot platform"></span>System or enforced control</span>
+          </div>
+
+          <div class="flow-scroll">
+            <div class="flow-grid" aria-label="Letter of credit application flow">
+              <div class="flow-node-wrap">
+                <button class="flow-node" type="button" data-step="application" data-audience="customer">
+                  <span class="node-top"><span class="node-step">01 / CUSTOMER</span><span class="node-tag">Customer</span></span>
+                  <span class="node-title"><span class="node-icon">＋</span>Submit LC application</span>
+                  <p class="node-copy">Enter applicant, beneficiary, amount, validity, Incoterms, and instructions.</p>
+                  <span class="node-foot">Creates a customer-owned application</span>
+                </button>
+              </div>
+              <div class="flow-node-wrap">
+                <button class="flow-node" type="button" data-step="documents" data-audience="platform">
+                  <span class="node-top"><span class="node-step">02 / DOCUMENTS</span><span class="node-tag">Private storage</span></span>
+                  <span class="node-title"><span class="node-icon">▧</span>Upload trade documents</span>
+                  <p class="node-copy">PDF, DOCX, JPG, or PNG; application-scoped storage path and access policies.</p>
+                  <span class="node-foot">Private bucket · temporary signed links</span>
+                </button>
+              </div>
+              <div class="flow-node-wrap">
+                <button class="flow-node" type="button" data-step="processing" data-audience="platform">
+                  <span class="node-top"><span class="node-step">03 / SERVER</span><span class="node-tag">Demo adapter</span></span>
+                  <span class="node-title"><span class="node-icon">⌁</span>Classify &amp; prepare fields</span>
+                  <p class="node-copy">Filename classification; submitted form values are labeled for review.</p>
+                  <span class="node-foot">No OCR or file-content inference</span>
+                </button>
+              </div>
+              <div class="flow-node-wrap">
+                <button class="flow-node" type="button" data-step="officer" data-audience="ops">
+                  <span class="node-top"><span class="node-step">04 / OFFICER</span><span class="node-tag">Human review</span></span>
+                  <span class="node-title"><span class="node-icon">✓</span>Review extracted fields</span>
+                  <p class="node-copy">Confirm values; every low-confidence field needs review before approval.</p>
+                  <span class="node-foot">Current guard: confidence below 80</span>
+                </button>
+              </div>
+              <div class="flow-node-wrap">
+                <button class="flow-node" type="button" data-step="exceptions" data-audience="customer">
+                  <span class="node-top"><span class="node-step">05 / RESOLVE</span><span class="node-tag">Two-way loop</span></span>
+                  <span class="node-title"><span class="node-icon">↔</span>Resolve exceptions</span>
+                  <p class="node-copy">Officer resolves discrepancies; customer answers clarification requests.</p>
+                  <span class="node-foot">Open issues block the approval request</span>
+                </button>
+              </div>
+              <div class="flow-node-wrap">
+                <button class="flow-node" type="button" data-step="compliance" data-audience="ops">
+                  <span class="node-top"><span class="node-step">06 / COMPLIANCE</span><span class="node-tag">Human clearance</span></span>
+                  <span class="node-title"><span class="node-icon">⌕</span>Review any flags</span>
+                  <p class="node-copy">Compliance staff record a reason and clear or escalate the flag.</p>
+                  <span class="node-foot">Uncleared flags block approval</span>
+                </button>
+              </div>
+              <div class="flow-node-wrap">
+                <button class="flow-node" type="button" data-step="decision" data-audience="ops">
+                  <span class="node-top"><span class="node-step">07 / APPROVER</span><span class="node-tag">Final decision</span></span>
+                  <span class="node-title"><span class="node-icon">◆</span>Approve or reject</span>
+                  <p class="node-copy">Authorized approver records a decision and reason; approval issues the LC.</p>
+                  <span class="node-foot">Validated draft only · no SWIFT sent</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="loop-strip">
+            <span class="loop-arrow" aria-hidden="true">↶</span>
+            <div>
+              <strong>Review is a gate, not a finish line.</strong>
+              <p>
+                If a clarification or discrepancy is open, the case returns to the
+                relevant customer/officer action. The officer can request approval
+                only after documents, extraction review, clarifications, and
+                discrepancies satisfy the database checks.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="detail-panel" aria-live="polite" aria-atomic="true">
+          <div>
+            <p class="section-kicker">Selected step</p>
+            <div class="detail-heading">
+              <span class="detail-number" id="detail-number">01</span>
+              <h3 id="detail-title">Submit LC application</h3>
+            </div>
+          </div>
+          <div>
+            <p class="detail-body" id="detail-body">
+              An authenticated customer creates an LC application. A database
+              policy requires the new record to belong to that customer and to
+              begin in the submitted state.
+            </p>
+            <div class="detail-meta" id="detail-meta">
+              <span class="mini-tag">Customer</span>
+              <span class="mini-tag">lc_applications</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" aria-labelledby="gates-title">
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-number">02</span>
+            <div>
+              <h2 id="gates-title">Approval gates</h2>
+              <p>Decision rules live in PostgreSQL functions and triggers—not just in UI labels.</p>
+            </div>
+          </div>
+        </div>
+        <div class="guard-grid">
+          <article class="guard-card">
+            <h3><span class="guard-mark">1</span>Officer request</h3>
+            <p>Requires at least one document, extraction fields, reviewed low-confidence values, resolved discrepancies, and answered clarifications.</p>
+          </article>
+          <article class="guard-card">
+            <h3><span class="guard-mark">2</span>Compliance clearance</h3>
+            <p>A database trigger blocks approval when an application has a compliance flag that is not cleared by a human reviewer.</p>
+          </article>
+          <article class="guard-card">
+            <h3><span class="guard-mark">3</span>Approver decision</h3>
+            <p>Only an approver or admin can decide a pending request. An approved or rejected decision requires a reason.</p>
+          </article>
+          <article class="guard-card">
+            <h3><span class="guard-mark">4</span>Traceable outcome</h3>
+            <p>Decision and review functions write audit events. Approval produces a validated draft; it does not transmit a SWIFT message.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="architecture-title">
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-number">03</span>
+            <div>
+              <h2 id="architecture-title">Application &amp; data layers</h2>
+              <p>The route, server adapter, database, and private file store each have a clear responsibility.</p>
+            </div>
+          </div>
+        </div>
+        <div class="architecture-grid">
+          <article class="layer-card">
+            <h3>What runs where</h3>
+            <ul class="layer-list">
+              <li class="layer-row"><strong>Experience</strong><span>TanStack Start / React shared route at <code>/</code>; role-filtered navigation and case detail.</span></li>
+              <li class="layer-row"><strong>Authentication</strong><span>Supabase Auth; <code>user_roles</code> distinguishes customer, officer, approver, compliance, and admin.</span></li>
+              <li class="layer-row"><strong>Server</strong><span>Authenticated server function validates ownership and status before demo processing.</span></li>
+              <li class="layer-row"><strong>Database</strong><span>Postgres / Supabase with RLS, decision RPCs, audit history, notifications, and approval guard triggers.</span></li>
+              <li class="layer-row"><strong>Files</strong><span>Private <code>lc-documents</code> bucket; paths begin with the application ID and reads use short-lived signed URLs.</span></li>
+            </ul>
+          </article>
+          <article class="role-card">
+            <h3>Role responsibilities</h3>
+            <ul class="role-list">
+              <li class="role-row"><strong>Customer</strong><span>Create and view own LC applications, upload documents, answer clarifications.</span></li>
+              <li class="role-row"><strong>Officer</strong><span>Review extraction, resolve discrepancies, request clarification, submit complete cases for approval.</span></li>
+              <li class="role-row"><strong>Approver</strong><span>Approve or reject pending requests with a recorded reason.</span></li>
+              <li class="role-row"><strong>Compliance</strong><span>Record reasoned human outcomes on flagged cases; only clearance unblocks issuance.</span></li>
+              <li class="role-row"><strong>Admin</strong><span>Manage roles and stored settings through admin-checked database functions; settings cannot bypass review.</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="operations-title">
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-number">04</span>
+            <div>
+              <h2 id="operations-title">Supporting operations</h2>
+              <p>Cross-cutting signals follow the case without replacing the decision path.</p>
+            </div>
+          </div>
+        </div>
+        <div class="notes-grid">
+          <article class="note-card">
+            <strong>Audit &amp; notifications</strong>
+            <p>Application activity is recorded for key events. In-app notifications remain available to signed-in users.</p>
+          </article>
+          <article class="note-card warning">
+            <strong>Email is an integration point</strong>
+            <p>External email delivery requires provider/script configuration and deployment; queued or mock email is not proof that a message was sent.</p>
+          </article>
+          <article class="note-card">
+            <strong>Configuration is not validation</strong>
+            <p>Administration settings are stored preferences. They do not run file-content analysis or disable mandatory human approval.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span><strong>SG TradeFlow</strong> · workflow map</span>
+        <span>Source of truth: application route, server adapter, and database migrations</span>
+      </footer>
+    </main>
+
+    <script>
+      const steps = {
+        application: {
+          number: "01",
+          title: "Submit LC application",
+          body: "An authenticated customer creates an LC application. A database policy requires the new record to belong to that customer and to begin in the submitted state.",
+          tags: ["Customer", "lc_applications"],
+        },
+        documents: {
+          number: "02",
+          title: "Upload private trade documents",
+          body: "The app accepts PDF, DOCX, JPG, or PNG files up to 20 MB. Objects are written beneath the application ID in the private lc-documents bucket; viewing and download use a signed URL that expires after 60 seconds.",
+          tags: ["Customer or authorized staff", "Private bucket", "Application-scoped path"],
+        },
+        processing: {
+          number: "03",
+          title: "Server-side demo processing",
+          body: "The authenticated server function checks the document uploader, application access, and open status. The current adapter classifies from the filename and prepares fields from submitted form values at a fixed 65 confidence. It does not read or OCR the uploaded file.",
+          tags: ["Authenticated server function", "DEMO AI MODE", "Human review required"],
+        },
+        officer: {
+          number: "04",
+          title: "Officer reviews fields",
+          body: "The officer confirms the advisory values. Current request/approval database checks require every field below 80 confidence to be reviewed before the case can advance.",
+          tags: ["Officer or admin", "mark_extraction_reviewed", "Threshold below 80"],
+        },
+        exceptions: {
+          number: "05",
+          title: "Resolve discrepancies and clarifications",
+          body: "An officer resolves discrepancies with a reason and may ask the customer for clarification. The customer responds through a customer-scoped database function. Open discrepancies or unanswered clarifications prevent an approval request.",
+          tags: ["Officer resolves", "Customer responds", "Audit recorded"],
+        },
+        compliance: {
+          number: "06",
+          title: "Human compliance review",
+          body: "A compliance user or admin records a reasoned decision on a flag. A database trigger prevents approval while any flag for the application is not cleared, including escalation or under-review states.",
+          tags: ["Compliance or admin", "Reason required", "Database trigger"],
+        },
+        decision: {
+          number: "07",
+          title: "Approver decides",
+          body: "An officer requests approval only after the workflow checks pass. An approver or admin records an approved or rejected decision with a reason. Approval changes the LC status to Issued and enables a validated text draft; no SWIFT message is sent.",
+          tags: ["Approver or admin", "Reason required", "No SWIFT transmission"],
+        },
+      };
+
+      const detailNumber = document.querySelector("#detail-number");
+      const detailTitle = document.querySelector("#detail-title");
+      const detailBody = document.querySelector("#detail-body");
+      const detailMeta = document.querySelector("#detail-meta");
+      const nodes = [...document.querySelectorAll(".flow-node")];
+
+      function selectStep(node) {
+        const step = steps[node.dataset.step];
+        if (!step) return;
+        nodes.forEach((item) => item.classList.toggle("is-selected", item === node));
+        detailNumber.textContent = step.number;
+        detailTitle.textContent = step.title;
+        detailBody.textContent = step.body;
+        detailMeta.replaceChildren(
+          ...step.tags.map((tag) => {
+            const element = document.createElement("span");
+            element.className = "mini-tag";
+            element.textContent = tag;
+            return element;
+          }),
+        );
+      }
+
+      nodes.forEach((node) => {
+        node.addEventListener("click", () => selectStep(node));
+      });
+
+      const filters = [...document.querySelectorAll(".filter-button")];
+      const audiences = {
+        all: null,
+        customer: ["customer", "shared"],
+        ops: ["ops", "shared"],
+        platform: ["platform", "shared"],
+      };
+
+      filters.forEach((button) => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter;
+          filters.forEach((item) => {
+            item.setAttribute("aria-pressed", String(item === button));
+          });
+          nodes.forEach((node) => {
+            const visible = !audiences[filter] || audiences[filter].includes(node.dataset.audience);
+            node.classList.toggle("is-muted", !visible);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
